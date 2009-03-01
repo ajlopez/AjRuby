@@ -1,0 +1,10 @@
+
+AjRuby To do list
+
+- Comments with #
+- Comments =begin thru =end
+- \u \x \C \M in "..."
++ \ treatment in "..."
+- #{ ... } in "..."
+
+- line continuation with \ at end

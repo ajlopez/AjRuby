@@ -1,0 +1,6 @@
+
+2000-03-01	
+Initial Project in ajcodekatas
+Lexer
+String, Quoted Strings, Names in Lexer
+Operators, Separators in Lexer

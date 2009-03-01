@@ -1,0 +1,114 @@
+<stylecopresultscache>
+  <version>10</version>
+  <sourcecode name="ParserException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 14:46:57</timestamp>
+    <milliseconds>62</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Token.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 14:46:03</timestamp>
+    <milliseconds>187</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="TokenType.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 14:46:03</timestamp>
+    <milliseconds>31</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 14:39:03</timestamp>
+    <milliseconds>734</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="ExpectedTokenException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 16:29:33</timestamp>
+    <milliseconds>15</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="InvalidInputException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 16:30:00</timestamp>
+    <milliseconds>546</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="LexerException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 16:29:34</timestamp>
+    <milliseconds>781</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="NameExpectedException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 16:29:33</timestamp>
+    <milliseconds>78</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="UnexpectedEndOfInputException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 16:29:33</timestamp>
+    <milliseconds>218</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="UnexpectedTokenException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 16:29:33</timestamp>
+    <milliseconds>62</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="EndOfInputException.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 17:18:22</timestamp>
+    <milliseconds>328</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Lexer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>03/01/2009 14:47:17</timestamp>
+      <milliseconds>906</milliseconds>
+    </settings>
+    <timestamp>03/01/2009 17:17:21</timestamp>
+    <milliseconds>328</milliseconds>
+    <violations />
+  </sourcecode>
+  <project key="-1836957961">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+</stylecopresultscache>
