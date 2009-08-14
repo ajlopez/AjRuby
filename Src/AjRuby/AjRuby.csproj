@@ -51,10 +51,18 @@
     <Compile Include="Compiler\ExpectedTokenException.cs" />
     <Compile Include="Compiler\NameExpectedException.cs" />
     <Compile Include="Compiler\Lexer.cs" />
+    <Compile Include="Compiler\Parser.cs" />
+    <Compile Include="Compiler\ParserException.cs" />
     <Compile Include="Compiler\Token.cs" />
     <Compile Include="Compiler\TokenType.cs" />
     <Compile Include="Compiler\UnexpectedEndOfInputException.cs" />
     <Compile Include="Compiler\UnexpectedTokenException.cs" />
+    <Compile Include="BindingEnvironment.cs" />
+    <Compile Include="Language\ConstantExpression.cs" />
+    <Compile Include="Language\ICommand.cs" />
+    <Compile Include="Language\IExpression.cs" />
+    <Compile Include="Language\LocalVariableExpression.cs" />
+    <Compile Include="Language\SetLocalVariableCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
