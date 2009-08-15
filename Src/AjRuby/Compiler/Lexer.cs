@@ -11,7 +11,7 @@
     {
         private const char StringChar = '"';
         private const char QuotedStringChar = '\'';
-        private const string Operators = "!~+-*/%&|^<>=.";
+        private const string Operators = "!~+-*/%&|^<>=.\\";
         private const string Separators = "()[]{},:;";
 
         private static string[] otherOperators = new string[] { "**", ">>", "<<", "<=", ">=", "==", "===", "!=", "=~", "!~", "<=>", "&&", "||", "..", "...", "**=", "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", "&&=", "&=", "||=", "|=", "^=" };
@@ -39,6 +39,15 @@
             }
 
             this.reader = reader;
+        }
+
+        public Token PeekToken()
+        {
+            Token token = this.NextToken();
+
+            this.PushToken(token);
+
+            return token;
         }
 
         public Token NextToken()

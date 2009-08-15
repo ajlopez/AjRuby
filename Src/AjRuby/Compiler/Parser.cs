@@ -10,7 +10,7 @@
     using AjRuby;
     using AjRuby.Language;
 
-    public class Parser
+    public class Parser : IDisposable
     {
         private Lexer lexer;
 
@@ -44,21 +44,88 @@
 
         public IExpression ParseExpression()
         {
+            return ParseBinaryExpressionFirstLevel();
+        }
+
+        private IExpression ParseBinaryExpressionFirstLevel()
+        {
+            IExpression expression = this.ParseBinaryExpressionSecondLevel();
+
+            if (expression == null)
+                return null;
+
+            while (this.TryParse(TokenType.Operator, "+", "-"))
+            {
+                Token oper = this.lexer.NextToken();
+                IExpression right = this.ParseBinaryExpressionSecondLevel();
+                ArithmeticOperator op = (oper.Value == "+" ? ArithmeticOperator.Add : ArithmeticOperator.Subtract);
+
+                expression = new ArithmeticBinaryExpression(op, expression, right);
+            }
+
+            return expression;
+        }
+
+        private IExpression ParseBinaryExpressionSecondLevel()
+        {
+            IExpression expression = this.ParseUnaryExpression();
+
+            if (expression == null)
+                return null;
+
+            while (this.TryParse(TokenType.Operator, "*", "/", @"\"))
+            {
+                Token oper = this.lexer.NextToken();
+                IExpression right = this.ParseUnaryExpression();
+                ArithmeticOperator op = (oper.Value == "*" ? ArithmeticOperator.Multiply : (oper.Value == "/" ? ArithmeticOperator.Divide : ArithmeticOperator.IntegerDivide));
+
+                expression = new ArithmeticBinaryExpression(op, expression, right);
+            }
+
+            return expression;
+        }
+
+        private IExpression ParseUnaryExpression()
+        {
+            if (this.TryParse(TokenType.Operator, "+", "-"))
+            {
+                Token oper = this.lexer.NextToken();
+
+                IExpression unaryExpression = this.ParseUnaryExpression();
+
+                ArithmeticOperator op = (oper.Value == "+" ? ArithmeticOperator.Plus : ArithmeticOperator.Minus);
+                
+                return new ArithmeticUnaryExpression(op, unaryExpression);
+            }
+
+            return this.ParseTermExpression();
+        }
+
+        private IExpression ParseTermExpression()
+        {
             Token token = lexer.NextToken();
 
             if (token == null)
                 return null;
 
-            switch (token.TokenType) 
+            switch (token.TokenType)
             {
+                case TokenType.Separator:
+                    if (token.Value == "(")
+                    {
+                        IExpression expr = this.ParseExpression();
+                        this.Parse(")", TokenType.Separator);
+                        return expr;
+                    }
+                    break;
                 case TokenType.Boolean:
                     bool booleanValue = Convert.ToBoolean(token.Value);
                     return new ConstantExpression(booleanValue);
                 case TokenType.Integer:
-                    int intValue = Convert.ToInt32(token.Value);
+                    int intValue = Int32.Parse(token.Value, System.Globalization.CultureInfo.InvariantCulture);
                     return new ConstantExpression(intValue);
                 case TokenType.Real:
-                    double realValue = Convert.ToDouble(token.Value);
+                    double realValue = Double.Parse(token.Value, System.Globalization.CultureInfo.InvariantCulture);
                     return new ConstantExpression(realValue);
                 case TokenType.String:
                     return new ConstantExpression(token.Value);
@@ -82,7 +149,7 @@
 
         private bool TryPeekName()
         {
-            Token token = this.lexer.NextToken();
+            Token token = this.lexer.PeekToken();
 
             if (token == null)
                 return false;
@@ -108,28 +175,27 @@
             throw new UnexpectedTokenException(token);
         }
 
-        private bool TryParse(string value, TokenType type)
+        private bool TryParse(TokenType type, params string[] values)
         {
-            Token token = this.lexer.NextToken();
+            Token token = this.lexer.PeekToken();
 
             if (token == null)
                 return false;
 
             if (type == TokenType.Name)
             {
-                if (IsName(token, value))
-                    return true;
-                else
-                {
-                    this.lexer.PushToken(token);
-                    return false;
-                }
+                foreach (string value in values)
+                    if (IsName(token, value))
+                        return true;
+
+                return false;
             }
 
-            if (token.TokenType == type && token.Value == value)
-                return true;
+            if (token.TokenType == type)
+                foreach (string value in values)
+                    if (token.Value == value)
+                        return true;
 
-            this.lexer.PushToken(token);
             return false;
         }
 
@@ -181,5 +247,15 @@
 
             return token.Value.Equals(value);
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            if (this.lexer != null)
+                this.lexer.Dispose();
+        }
+
+        #endregion
     }
 }

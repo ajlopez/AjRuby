@@ -13,3 +13,12 @@ ConstantExpression with tests
 SetLocalVariableCommand with tests
 Parser with tests
 Parser.ParseExpression, .ParseCommand first version
+
+2009-08-15
+BinaryExpression
+ArithmeticOperator
+ArithmeticBinaryExpression
+UnaryExpression
+ArithmeticUnaryExpression
+Evaluation tests
+Execution tests

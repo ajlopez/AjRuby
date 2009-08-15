@@ -44,6 +44,95 @@
         }
 
         [TestMethod]
+        public void ParseSimpleUnaryExpression()
+        {
+            IExpression expression = ParseExpression("-2");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(ArithmeticUnaryExpression));
+
+            ArithmeticUnaryExpression operation = (ArithmeticUnaryExpression)expression;
+
+            Assert.AreEqual(ArithmeticOperator.Minus, operation.Operation);
+            Assert.IsNotNull(operation.Expression);
+            Assert.IsInstanceOfType(operation.Expression, typeof(ConstantExpression));
+        }
+
+        [TestMethod]
+        public void ParseSimpleBinaryExpression()
+        {
+            IExpression expression = ParseExpression("a + 2");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(ArithmeticBinaryExpression));
+
+            ArithmeticBinaryExpression operation = (ArithmeticBinaryExpression)expression;
+
+            Assert.AreEqual(ArithmeticOperator.Add, operation.Operation);
+            Assert.IsNotNull(operation.LeftExpression);
+            Assert.IsInstanceOfType(operation.LeftExpression, typeof(LocalVariableExpression));
+            Assert.IsNotNull(operation.RightExpression);
+            Assert.IsInstanceOfType(operation.RightExpression, typeof(ConstantExpression));
+        }
+
+        [TestMethod]
+        public void ParseSimpleBinaryExpressionWithParenthesis()
+        {
+            IExpression expression = ParseExpression("((a) + (2))");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(ArithmeticBinaryExpression));
+
+            ArithmeticBinaryExpression operation = (ArithmeticBinaryExpression)expression;
+
+            Assert.AreEqual(ArithmeticOperator.Add, operation.Operation);
+            Assert.IsNotNull(operation.LeftExpression);
+            Assert.IsInstanceOfType(operation.LeftExpression, typeof(LocalVariableExpression));
+            Assert.IsNotNull(operation.RightExpression);
+            Assert.IsInstanceOfType(operation.RightExpression, typeof(ConstantExpression));
+        }
+
+        [TestMethod]
+        public void ParseTwoBinaryExpression()
+        {
+            IExpression expression = ParseExpression("a + 2 - 3");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(ArithmeticBinaryExpression));
+
+            ArithmeticBinaryExpression operation = (ArithmeticBinaryExpression)expression;
+
+            Assert.AreEqual(ArithmeticOperator.Subtract, operation.Operation);
+            Assert.IsNotNull(operation.LeftExpression);
+            Assert.IsInstanceOfType(operation.LeftExpression, typeof(ArithmeticBinaryExpression));
+            Assert.IsNotNull(operation.RightExpression);
+            Assert.IsInstanceOfType(operation.RightExpression, typeof(ConstantExpression));
+        }
+
+        [TestMethod]
+        public void ParseTwoBinaryExpressionDifferentLevels()
+        {
+            IExpression expression = ParseExpression("a + 2 * 3");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(ArithmeticBinaryExpression));
+
+            ArithmeticBinaryExpression arithmeticExpression = (ArithmeticBinaryExpression)expression;
+
+            Assert.AreEqual(ArithmeticOperator.Add, arithmeticExpression.Operation);
+            Assert.IsNotNull(arithmeticExpression.LeftExpression);
+            Assert.IsInstanceOfType(arithmeticExpression.LeftExpression, typeof(LocalVariableExpression));
+            Assert.IsNotNull(arithmeticExpression.RightExpression);
+            Assert.IsInstanceOfType(arithmeticExpression.RightExpression, typeof(ArithmeticBinaryExpression));
+
+            ArithmeticBinaryExpression rigthExpression = (ArithmeticBinaryExpression) arithmeticExpression.RightExpression;
+
+            Assert.AreEqual(ArithmeticOperator.Multiply, rigthExpression.Operation);
+            Assert.IsInstanceOfType(rigthExpression.LeftExpression, typeof(ConstantExpression));
+            Assert.IsInstanceOfType(rigthExpression.RightExpression, typeof(ConstantExpression));
+        }
+
+        [TestMethod]
         public void ParseSetLocalVariableCommand()
         {
             ICommand command = ParseCommand("a = 1");

@@ -15,15 +15,16 @@
     public class LexerTests
     {
         [TestMethod]
-        public void ShouldCreateWithString()
+        public void CreateWithString()
         {
-            Lexer lexer = new Lexer("text");
-
-            Assert.IsNotNull(lexer);
+            using (Lexer lexer = new Lexer("text"))
+            {
+                Assert.IsNotNull(lexer);
+            }
         }
 
         [TestMethod]
-        public void ShouldCreateWithTextReader()
+        public void CreateWithTextReader()
         {
             Lexer lexer = new Lexer(new StringReader("text"));
 
@@ -32,22 +33,22 @@
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ShouldRaiseIfTextIsNull()
+        public void RaiseIfTextIsNull()
         {
             Lexer lexer = new Lexer((string)null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ShouldRaiseIfTextReaderIsNull()
+        public void RaiseIfTextReaderIsNull()
         {
             Lexer lexer = new Lexer((TextReader)null);
         }
 
         [TestMethod]
-        public void ShouldProcessOneCharOperators()
+        public void ProcessOneCharOperators()
         {
-            string operators = "!+~-*/%&<^>|.=";
+            string operators = "!+~-*/%&<^>|.=\\";
             Lexer lexer = new Lexer(operators);
 
             Token token;
@@ -67,7 +68,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessMultiCharOperators()
+        public void ProcessMultiCharOperators()
         {
             string operators = "** >> << <= >= == === != =~ !~ <=> && || .. ... **= *= /= %= += -= <<= >>= &&= &= ||= |= ^=";
             string[] otherOperators = new string[] { "**", ">>", "<<", "<=", ">=", "==", "===", "!=", "=~", "!~", "<=>", "&&", "||", "..", "...", "**=", "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", "&&=", "&=", "||=", "|=", "^=" };
@@ -91,7 +92,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessSeparators()
+        public void ProcessSeparators()
         {
             string separators = "()[]{},:;";
             Lexer lexer = new Lexer(separators);
@@ -113,7 +114,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessName()
+        public void ProcessName()
         {
             Lexer lexer = new Lexer("name");
 
@@ -131,7 +132,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessNameWithInitialUnderscore()
+        public void ProcessNameWithInitialUnderscore()
         {
             Lexer lexer = new Lexer("_name");
 
@@ -149,7 +150,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessNameWithUnderscore()
+        public void ProcessNameWithUnderscore()
         {
             Lexer lexer = new Lexer("my_name");
 
@@ -167,7 +168,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessInstanceVariableName()
+        public void ProcessInstanceVariableName()
         {
             Lexer lexer = new Lexer("@name");
 
@@ -185,7 +186,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessClassVariableName()
+        public void ProcessClassVariableName()
         {
             Lexer lexer = new Lexer("@@name");
 
@@ -203,7 +204,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessGlobalVariableName()
+        public void ProcessGlobalVariableName()
         {
             Lexer lexer = new Lexer("$name");
 
@@ -222,7 +223,7 @@
 
         [TestMethod]
         [ExpectedException(typeof(InvalidInputException))]
-        public void ShouldRaiseIfOnlyAts()
+        public void RaiseIfOnlyAts()
         {
             Lexer lexer = new Lexer("@@");
 
@@ -232,7 +233,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessNameWithSpaces()
+        public void ProcessNameWithSpaces()
         {
             Lexer lexer = new Lexer(" name ");
 
@@ -250,7 +251,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessInteger()
+        public void ProcessInteger()
         {
             Lexer lexer = new Lexer("123");
 
@@ -268,7 +269,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessIntegerWithSpaces()
+        public void ProcessIntegerWithSpaces()
         {
             Lexer lexer = new Lexer(" 123 ");
 
@@ -286,7 +287,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessReal()
+        public void ProcessReal()
         {
             Lexer lexer = new Lexer("12.34");
 
@@ -304,7 +305,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessBoolean()
+        public void ProcessBoolean()
         {
             Lexer lexer = new Lexer("true false");
 
@@ -328,7 +329,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessString()
+        public void ProcessString()
         {
             Lexer lexer = new Lexer("\"foo\"");
 
@@ -346,7 +347,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessStringWithBackslashes()
+        public void ProcessStringWithBackslashes()
         {
             Lexer lexer = new Lexer("\"\\\\\\r\\n\\t\\f\\s\\v\\\\\"");
 
@@ -365,7 +366,7 @@
 
         [TestMethod]
         [ExpectedException(typeof(EndOfInputException))]
-        public void ShouldRaiseIfUnclosedString()
+        public void RaiseIfUnclosedString()
         {
             Lexer lexer = new Lexer("\"foo");
 
@@ -375,7 +376,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessMultilineString()
+        public void ProcessMultilineString()
         {
             Lexer lexer = new Lexer("\"foo\r\nbar\"");
 
@@ -393,7 +394,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessQuotedString()
+        public void ProcessQuotedString()
         {
             Lexer lexer = new Lexer("'bar'");
 
@@ -412,7 +413,7 @@
 
         [TestMethod]
         [ExpectedException(typeof(EndOfInputException))]
-        public void ShouldRaiseIfUnclosedQuotedString()
+        public void RaiseIfUnclosedQuotedString()
         {
             Lexer lexer = new Lexer("'bar");
 
@@ -422,7 +423,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessQuotedStringWithQuote()
+        public void ProcessQuotedStringWithQuote()
         {
             Lexer lexer = new Lexer("'bar\\'foo'");
 
@@ -440,7 +441,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessQuotedStringWithBackslash()
+        public void ProcessQuotedStringWithBackslash()
         {
             Lexer lexer = new Lexer("'bar\\\\foo'");
 
@@ -458,7 +459,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessQuotedStringWithSuperfluosBackslash()
+        public void ProcessQuotedStringWithSuperfluosBackslash()
         {
             Lexer lexer = new Lexer("'bar\\foo'");
 
@@ -476,7 +477,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessMultilineQuotedString()
+        public void ProcessMultilineQuotedString()
         {
             Lexer lexer = new Lexer("'bar\r\nfoo'");
 
@@ -494,7 +495,7 @@
         }
 
         [TestMethod]
-        public void ShouldProcessMultilineQuotedStringWithBackslash()
+        public void ProcessMultilineQuotedStringWithBackslash()
         {
             Lexer lexer = new Lexer("'bar\\\r\nfoo'");
 
