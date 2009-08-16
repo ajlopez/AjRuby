@@ -8,7 +8,9 @@
     using System.Text;
 
     using AjRuby;
+    using AjRuby.Commands;
     using AjRuby.Language;
+    using AjRuby.Expressions;
 
     public class Parser : IDisposable
     {
@@ -94,7 +96,7 @@
                 IExpression unaryExpression = this.ParseUnaryExpression();
 
                 ArithmeticOperator op = (oper.Value == "+" ? ArithmeticOperator.Plus : ArithmeticOperator.Minus);
-                
+
                 return new ArithmeticUnaryExpression(op, unaryExpression);
             }
 
@@ -102,6 +104,44 @@
         }
 
         private IExpression ParseTermExpression()
+        {
+            IExpression expression = this.ParseSimpleTermExpression();
+
+            while (TryParse(TokenType.Operator, "."))
+            {
+                this.lexer.NextToken();
+                string name = this.ParseName();
+                List<IExpression> arguments = null;
+
+                if (TryParse(TokenType.Separator, "("))
+                    arguments = this.ParseArgumentList();
+
+                expression = new DotExpression(expression, name, arguments);
+            }
+
+            return expression;
+        }
+
+        private List<IExpression> ParseArgumentList()
+        {
+            List<IExpression> expressions = new List<IExpression>();
+
+            this.Parse(TokenType.Separator, "(");
+
+            while (!this.TryParse(TokenType.Separator, ")"))
+            {
+                if (expressions.Count > 0)
+                    this.Parse(TokenType.Separator, ",");
+
+                expressions.Add(this.ParseExpression());
+            }
+
+            this.Parse(TokenType.Separator, ")");
+
+            return expressions;
+        }
+
+        private IExpression ParseSimpleTermExpression()
         {
             Token token = lexer.NextToken();
 
@@ -114,7 +154,7 @@
                     if (token.Value == "(")
                     {
                         IExpression expr = this.ParseExpression();
-                        this.Parse(")", TokenType.Separator);
+                        this.Parse(TokenType.Separator, ")");
                         return expr;
                     }
                     break;
@@ -140,7 +180,7 @@
 
         private ICommand ParseSetCommand(string variableName)
         {
-            this.Parse("=", TokenType.Operator);
+            this.Parse(TokenType.Operator, "=");
 
             IExpression expression = this.ParseExpression();
 
@@ -199,7 +239,7 @@
             return false;
         }
 
-        private void Parse(string value, TokenType type)
+        private void Parse(TokenType type, string value)
         {
             Token token = this.lexer.NextToken();
 

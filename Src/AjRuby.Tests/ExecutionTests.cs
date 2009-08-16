@@ -6,6 +6,7 @@
     using System.Linq;
 
     using AjRuby;
+    using AjRuby.Commands;
     using AjRuby.Compiler;
     using AjRuby.Language;
 

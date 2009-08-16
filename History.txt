@@ -22,3 +22,13 @@ UnaryExpression
 ArithmeticUnaryExpression
 Evaluation tests
 Execution tests
+
+2009-08-16
+BaseObject, BaseClass
+FixnumClass
+Utilities.GetClass
+Object and Class initial tests
+DotExpression with tests
+dot operator in parser, with tests
+dot operator evaluation with tests
+New folders, namespaces: Expressions, Commands

@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Text;
 
-    public interface ICommand
+    public interface IClass : IObject
     {
-        void Execute(BindingEnvironment environment);
+        object Invoke(object instance, string methodName, params object[] arguments);
     }
 }

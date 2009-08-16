@@ -7,7 +7,9 @@
     using System.Text;
 
     using AjRuby;
+    using AjRuby.Commands;
     using AjRuby.Compiler;
+    using AjRuby.Expressions;
     using AjRuby.Language;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -146,6 +148,24 @@
             Assert.IsNotNull(setcmd.Expression);
             Assert.IsInstanceOfType(setcmd.Expression, typeof(ConstantExpression));
             Assert.AreEqual(1, setcmd.Expression.Evaluate(null));
+        }
+
+        [TestMethod]
+        public void ParseSimpleDotExpression()
+        {
+            IExpression expression = ParseExpression("a.class");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(DotExpression));
+        }
+
+        [TestMethod]
+        public void ParseSimpleDotExpressionWithArguments()
+        {
+            IExpression expression = ParseExpression("foo.bar(1,2)");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(DotExpression));
         }
 
         private static IExpression ParseExpression(string text)

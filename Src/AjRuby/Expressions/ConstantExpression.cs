@@ -1,4 +1,4 @@
-﻿namespace AjRuby.Language
+﻿namespace AjRuby.Expressions
 {
     using System;
     using System.Collections.Generic;

@@ -59,17 +59,24 @@
     <Compile Include="Compiler\UnexpectedEndOfInputException.cs" />
     <Compile Include="Compiler\UnexpectedTokenException.cs" />
     <Compile Include="BindingEnvironment.cs" />
-    <Compile Include="Language\ArithmeticBinaryExpression.cs" />
+    <Compile Include="Expressions\ArithmeticBinaryExpression.cs" />
+    <Compile Include="Expressions\DotExpression.cs" />
     <Compile Include="Language\ArithmeticOperator.cs" />
-    <Compile Include="Language\BinaryExpression.cs" />
-    <Compile Include="Language\ConstantExpression.cs" />
-    <Compile Include="Language\ArithmeticUnaryExpression.cs" />
-    <Compile Include="Language\UnaryExpression.cs" />
-    <Compile Include="Language\ICommand.cs" />
-    <Compile Include="Language\IExpression.cs" />
-    <Compile Include="Language\LocalVariableExpression.cs" />
-    <Compile Include="Language\SetLocalVariableCommand.cs" />
+    <Compile Include="Language\BaseClass.cs" />
+    <Compile Include="Language\BaseObject.cs" />
+    <Compile Include="Expressions\BinaryExpression.cs" />
+    <Compile Include="Expressions\ConstantExpression.cs" />
+    <Compile Include="Expressions\ArithmeticUnaryExpression.cs" />
+    <Compile Include="Language\FixnumClass.cs" />
+    <Compile Include="Language\IClass.cs" />
+    <Compile Include="Language\IObject.cs" />
+    <Compile Include="Expressions\UnaryExpression.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Expressions\IExpression.cs" />
+    <Compile Include="Expressions\LocalVariableExpression.cs" />
+    <Compile Include="Commands\SetLocalVariableCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

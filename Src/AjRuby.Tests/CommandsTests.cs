@@ -6,6 +6,8 @@
     using System.Linq;
 
     using AjRuby;
+    using AjRuby.Commands;
+    using AjRuby.Expressions;
     using AjRuby.Language;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -6,8 +6,10 @@
     using System.Linq;
 
     using AjRuby;
+    using AjRuby.Expressions;
     using AjRuby.Language;
     using AjRuby.Compiler;
+    using AjRuby.Tests.Mocks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,6 +25,7 @@
             this.environment.SetValue("one", 1);
             this.environment.SetValue("two", 2);
             this.environment.SetValue("foo", "bar");
+            this.environment.SetValue("mock", new MockObject());
         }
 
         [TestMethod]
@@ -76,6 +79,15 @@
             Assert.AreEqual(5, this.Evaluate(@"1\1+4"));
             Assert.AreEqual(5, this.Evaluate("-1*-1+4"));
             Assert.AreEqual(-9, this.Evaluate("1 - 2 * 5"));
+        }
+
+        [TestMethod]
+        public void EvaluateMockInvocation()
+        {
+            Assert.AreEqual("foo", this.Evaluate("mock.foo"));
+            Assert.AreEqual("foo", this.Evaluate("mock.foo()"));
+            Assert.AreEqual("foo:1:2", this.Evaluate("mock.foo(1,2)"));
+            Assert.AreEqual("foo:1:2", this.Evaluate("mock.foo(one,two)"));
         }
 
         private object Evaluate(string text) 

@@ -1,9 +1,11 @@
-﻿namespace AjRuby.Language
+﻿namespace AjRuby.Commands
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+
+    using AjRuby.Expressions;
 
     public class SetLocalVariableCommand : ICommand
     {
