@@ -30,8 +30,8 @@
             {
                 argumentValues = new object[this.arguments.Count];
 
-                for (int k = 0; k < arguments.Count; k++)
-                    argumentValues[k] = arguments[k].Evaluate(environment);
+                for (int k = 0; k < this.arguments.Count; k++)
+                    argumentValues[k] = this.arguments[k].Evaluate(environment);
             }
 
             return cls.Invoke(value, this.name, argumentValues);

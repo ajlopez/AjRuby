@@ -32,3 +32,10 @@ DotExpression with tests
 dot operator in parser, with tests
 dot operator evaluation with tests
 New folders, namespaces: Expressions, Commands
+
+2010-02-07
+End of line in Lexer
+End of line as end of command in Parser
+; as end of command in Parser
+# as comment in Lexer
+ExpressionCommand

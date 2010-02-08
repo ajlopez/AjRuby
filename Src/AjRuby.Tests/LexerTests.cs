@@ -511,6 +511,98 @@
 
             Assert.IsNull(token);
         }
+
+        [TestMethod]
+        public void ProcessEndOfLine()
+        {
+            Lexer lexer = new Lexer("\r\n");
+
+            Token token;
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.TokenType);
+
+            token = lexer.NextToken();
+
+            Assert.IsNull(token);
+        }
+
+        [TestMethod]
+        public void ProcessNewLine()
+        {
+            Lexer lexer = new Lexer("\n");
+
+            Token token;
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.TokenType);
+
+            token = lexer.NextToken();
+
+            Assert.IsNull(token);
+        }
+
+        [TestMethod]
+        public void ProcessNameEndOfLineName()
+        {
+            Lexer lexer = new Lexer("foo\r\nbar");
+
+            Token token;
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.Name, token.TokenType);
+            Assert.AreEqual("foo", token.Value);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.TokenType);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.Name, token.TokenType);
+            Assert.AreEqual("bar", token.Value);
+
+            token = lexer.NextToken();
+
+            Assert.IsNull(token);
+        }
+
+        [TestMethod]
+        public void ProcessNameCommentEndOfLineNameComment()
+        {
+            Lexer lexer = new Lexer("foo # Comment 1\r\nbar # Comment 2");
+
+            Token token;
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.Name, token.TokenType);
+            Assert.AreEqual("foo", token.Value);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.TokenType);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.Name, token.TokenType);
+            Assert.AreEqual("bar", token.Value);
+
+            token = lexer.NextToken();
+
+            Assert.IsNull(token);
+        }
     }
 }
 

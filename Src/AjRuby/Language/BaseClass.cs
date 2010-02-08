@@ -9,8 +9,6 @@
     {
         private static BaseClass instance = new BaseClass();
 
-        public static BaseClass Instance { get { return instance; } }
-
         public BaseClass()
             : base(null)
         {
@@ -20,6 +18,8 @@
             : base(cls)
         {
         }
+
+        public static BaseClass Instance { get { return instance; } }
 
         public override IClass GetClass()
         {

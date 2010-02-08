@@ -9,10 +9,10 @@
     {
         private static FixnumClass instance = new FixnumClass();
 
-        public static FixnumClass Instance { get { return instance; } }
-
         private FixnumClass()
         {
         }
+
+        public static new FixnumClass Instance { get { return instance; } }
     }
 }

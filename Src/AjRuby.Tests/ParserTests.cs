@@ -168,6 +168,29 @@
             Assert.IsInstanceOfType(expression, typeof(DotExpression));
         }
 
+        [TestMethod]
+        public void ParseSimpleDotAddExpressions()
+        {
+            IExpression expression = ParseExpression("foo.bar(1,2)+4");
+
+            Assert.IsNotNull(expression);
+            Assert.IsInstanceOfType(expression, typeof(ArithmeticBinaryExpression));
+        }
+
+        [TestMethod]
+        public void ParseExpressionCommand()
+        {
+            ICommand command = ParseCommand("foo.bar(1,2);");
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(ExpressionCommand));
+
+            ExpressionCommand exprcmd = (ExpressionCommand)command;
+
+            Assert.IsNotNull(exprcmd.Expression);
+            Assert.IsInstanceOfType(exprcmd.Expression, typeof(DotExpression));
+        }
+
         private static IExpression ParseExpression(string text)
         {
             Parser parser = new Parser(text);

@@ -16,17 +16,17 @@
 
         private static string[] otherOperators = new string[] { "**", ">>", "<<", "<=", ">=", "==", "===", "!=", "=~", "!~", "<=>", "&&", "||", "..", "...", "**=", "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", "&&=", "&=", "||=", "|=", "^=" };
 
+        private static string[] binaryOperators = new string[] { "+", "-", "*", "/", "<", ">", "**", ">>", "<<", "<=", ">=", "==", "===", "!=", "=~", "!~", "<=>", "&&", "||", "..", "..." };
+
         private TextReader reader;
-        private Token lastToken;
+        private Stack<Token> lastTokens = new Stack<Token>();
         private char lastChar;
         private bool hasChar;
 
         public Lexer(string text)
         {
             if (text == null)
-            {
                 throw new ArgumentNullException("text");
-            }
 
             this.reader = new StringReader(text);
         }
@@ -34,9 +34,7 @@
         public Lexer(TextReader reader)
         {
             if (reader == null)
-            {
                 throw new ArgumentNullException("reader");
-            }
 
             this.reader = reader;
         }
@@ -52,13 +50,8 @@
 
         public Token NextToken()
         {
-            if (this.lastToken != null)
-            {
-                Token t = this.lastToken;
-                this.lastToken = null;
-
-                return t;
-            }
+            if (this.lastTokens.Count > 0)
+                return this.lastTokens.Pop();
 
             char ch;
 
@@ -71,35 +64,44 @@
                 return null;
             }
 
-            if (char.IsDigit(ch))
+            if (ch == '\r')
             {
-                return this.NextInteger(ch);
+                Token token = new Token() { TokenType = TokenType.EndOfLine, Value = "\r\n" };
+
+                try
+                {
+                    char ch2 = this.NextCharSkipBlanks();
+                    if (ch2 != '\n')
+                        this.PushChar(ch2);
+                }
+                catch (EndOfInputException)
+                {
+                    return null;
+                }
+
+                return token;
             }
+
+            if (ch == '\n')
+                return new Token() { TokenType = TokenType.EndOfLine, Value = "\r\n" };
+
+            if (char.IsDigit(ch))
+                return this.NextInteger(ch);
 
             if (char.IsLetter(ch) || ch == '_' || ch == '@' || ch == '$')
-            {
                 return this.NextName(ch);
-            }
 
             if (ch == StringChar)
-            {
                 return this.NextString();
-            }
 
             if (ch == QuotedStringChar)
-            {
                 return this.NextQuotedString();
-            }
 
             if (Separators.Contains(ch))
-            {
                 return this.NextSeparator(ch);
-            }
 
             if (Operators.Contains(ch))
-            {
                 return this.NextOperator(ch);
-            }
 
             throw new InvalidDataException(string.Format(CultureInfo.InvariantCulture, "Unknown input '{0}'", ch));
         }
@@ -120,12 +122,7 @@
 
         internal void PushToken(Token token)
         {
-            if (this.lastToken != null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            this.lastToken = token;
+            this.lastTokens.Push(token);
         }
 
         private Token NextOperator(char ch)
@@ -406,10 +403,16 @@
 
             ch = this.NextChar();
 
-            while (char.IsWhiteSpace(ch))
-            {
+            while (char.IsWhiteSpace(ch) && ch != '\r' && ch != '\n')
                 ch = this.NextChar();
-            }
+
+            if (ch != '#')
+                return ch;
+
+            ch = this.NextChar();
+
+            while (ch != '\r' && ch != '\n')
+                ch = this.NextChar();
 
             return ch;
         }
